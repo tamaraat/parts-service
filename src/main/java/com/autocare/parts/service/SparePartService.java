@@ -8,6 +8,8 @@ import com.autocare.parts.exception.SparePartNotFoundException;
 import com.autocare.parts.repository.SparePartRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ public class SparePartService {
                 sparePartRepository;
     }
 
+    @Cacheable("spareParts")
     public List<SparePartResponse> getAllParts() {
 
         return sparePartRepository
@@ -41,6 +44,10 @@ public class SparePartService {
     }
 
     @Transactional
+    @CacheEvict(
+            value = "spareParts",
+            allEntries = true
+    )
     public SparePartResponse addPart(
             SparePartRequest request
     ) {
@@ -98,6 +105,10 @@ public class SparePartService {
     }
 
     @Transactional
+    @CacheEvict(
+            value = "spareParts",
+            allEntries = true
+    )
     public SparePartResponse updatePart(
             UUID id,
             SparePartRequest request
@@ -157,6 +168,10 @@ public class SparePartService {
     }
 
     @Transactional
+    @CacheEvict(
+            value = "spareParts",
+            allEntries = true
+    )
     public SparePartResponse updateStock(
             UUID id,
             StockUpdateRequest request
@@ -189,6 +204,10 @@ public class SparePartService {
     }
 
     @Transactional
+    @CacheEvict(
+            value = "spareParts",
+            allEntries = true
+    )
     public void deletePart(
             UUID id
     ) {
